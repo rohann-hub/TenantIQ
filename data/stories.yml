@@ -1,0 +1,40 @@
+version: "3.1"
+
+stories:
+- story: greet, introduce, ask question, thank, leave
+  steps:
+    - intent: greet
+    - action: utter_greet
+    - intent: provide_name
+    - action: utter_greet_with_name
+    - intent: ask_knowledge_base
+    - action: action_query_knowledge_base
+    - intent: thank_you
+    - action: utter_thank_you
+    - intent: goodbye
+    - action: utter_goodbye
+
+- story: user introduces themselves first
+  steps:
+    - intent: provide_name
+    - action: utter_greet_with_name
+    - intent: ask_capabilities
+    - action: utter_capabilities
+
+- story: faq then knowledge base query
+  steps:
+    - intent: greet
+    - action: utter_greet
+    - intent: faq
+    - action: utter_faq
+    - intent: ask_knowledge_base
+    - action: action_query_knowledge_base
+    - intent: goodbye
+    - action: utter_goodbye
+
+- story: out of scope then recovery
+  steps:
+    - intent: out_of_scope
+    - action: utter_out_of_scope
+    - intent: ask_knowledge_base
+    - action: action_query_knowledge_base

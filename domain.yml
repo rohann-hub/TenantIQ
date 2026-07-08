@@ -1,0 +1,70 @@
+version: "3.1"
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - bot_challenge
+  - thank_you
+  - ask_capabilities
+  - provide_name
+  - ask_knowledge_base
+  - nlu_fallback
+  - out_of_scope
+  - faq
+
+entities:
+  - user_name
+
+slots:
+  user_name:
+    type: text
+    influence_conversation: false
+    mappings:
+      - type: from_entity
+        entity: user_name
+
+responses:
+  utter_greet:
+    - text: "Hello! I'm your assistant. How can I help you today?"
+    - text: "Hi there! What can I do for you?"
+
+  utter_greet_with_name:
+    - text: "Nice to meet you, {user_name}! How can I help you today?"
+
+  utter_goodbye:
+    - text: "Goodbye! Have a great day."
+    - text: "See you later. Take care!"
+
+  utter_iamabot:
+    - text: "I'm a bot built with Rasa NLU. I use a DIET classifier to understand your messages and a custom action layer to answer questions from a knowledge base."
+
+  utter_capabilities:
+    - text: "I can answer FAQs, chat with you, and look up answers from my knowledge base. Try asking me a question!"
+
+  utter_thank_you:
+    - text: "You're welcome! Anything else I can help with?"
+
+  utter_ask_rephrase:
+    - text: "Sorry, I didn't quite understand that. Could you rephrase?"
+
+  utter_out_of_scope:
+    - text: "That's outside what I can help with right now, but feel free to ask me something else."
+
+  utter_faq/hours:
+    - text: "We're available Monday to Friday, 10:00 AM to 6:00 PM IST."
+
+  utter_faq/contact:
+    - text: "You can reach the support team at support@example.com or call +91-00000-00000."
+
+  utter_faq/pricing:
+    - text: "The basic plan is free. Premium plans start at ₹499/month. Check the website for full details."
+
+actions:
+  - action_query_knowledge_base
+  - action_default_fallback
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true

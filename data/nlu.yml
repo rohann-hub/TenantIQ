@@ -1,0 +1,154 @@
+version: "3.1"
+
+nlu:
+- intent: greet
+  examples: |
+    - hey
+    - hello
+    - hi
+    - hello there
+    - good morning
+    - good evening
+    - hey there
+    - namaste
+    - hi bot
+    - greetings
+    - what's up
+    - howdy
+
+- intent: goodbye
+  examples: |
+    - bye
+    - goodbye
+    - see you later
+    - see ya
+    - talk to you later
+    - bye bye
+    - catch you later
+    - I'm leaving
+    - good night
+    - have a nice day
+
+- intent: affirm
+  examples: |
+    - yes
+    - y
+    - indeed
+    - of course
+    - that sounds good
+    - correct
+    - sure
+    - ok
+    - okay
+    - yep
+    - absolutely
+
+- intent: deny
+  examples: |
+    - no
+    - n
+    - never
+    - I don't think so
+    - don't like that
+    - no way
+    - not really
+    - nope
+    - nah
+
+- intent: bot_challenge
+  examples: |
+    - are you a bot?
+    - are you a human?
+    - am I talking to a bot?
+    - am I talking to a human?
+    - who are you
+    - what are you
+    - are you real
+    - are you an AI
+
+- intent: thank_you
+  examples: |
+    - thanks
+    - thank you
+    - thanks a lot
+    - thank you so much
+    - that was helpful, thanks
+    - appreciate it
+    - great, thanks
+
+- intent: ask_capabilities
+  examples: |
+    - what can you do
+    - what do you do
+    - how can you help me
+    - what are your features
+    - tell me what you can do
+    - what kind of questions can I ask
+    - help
+    - what are your capabilities
+
+- intent: provide_name
+  examples: |
+    - my name is [Soumik](user_name)
+    - I'm [Rahul](user_name)
+    - I am [Priya](user_name)
+    - call me [Arjun](user_name)
+    - this is [Ananya](user_name)
+    - you can call me [Vikram](user_name)
+    - [Sneha](user_name) here
+    - the name's [Rohan](user_name)
+
+- intent: ask_knowledge_base
+  examples: |
+    - can you look up how refunds work
+    - search the knowledge base for onboarding steps
+    - find information about data retention policy
+    - what does the documentation say about API limits
+    - look up the leave policy
+    - tell me about the escalation process
+    - explain how the approval workflow works
+    - I need details on the security guidelines
+    - can you check the docs for deployment instructions
+    - what is the procedure for filing a complaint
+
+- intent: out_of_scope
+  examples: |
+    - order me a pizza
+    - what's the weather on Mars
+    - sing me a song
+    - tell me a joke about my boss
+    - can you drive a car
+    - book me a flight to Paris
+    - what is the meaning of life
+
+- intent: faq/hours
+  examples: |
+    - what are your working hours
+    - when are you open
+    - what time do you open
+    - are you available on weekends
+    - office timings please
+    - when can I contact support
+
+- intent: faq/contact
+  examples: |
+    - how do I contact support
+    - what is your email
+    - give me the contact number
+    - how do I reach a human agent
+    - customer care number please
+    - support email id
+
+- intent: faq/pricing
+  examples: |
+    - how much does it cost
+    - what are your prices
+    - is there a free plan
+    - tell me about pricing
+    - what does the premium plan cost
+    - subscription charges
+
+- synonym: Soumik
+  examples: |
+    - soumik
+    - Soumik Da

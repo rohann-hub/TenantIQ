@@ -1,0 +1,16 @@
+version: "3.1"
+stories:
+- story: happy path test
+  steps:
+    - user: |
+        hello
+      intent: greet
+    - action: utter_greet
+    - user: |
+        what can you do
+      intent: ask_capabilities
+    - action: utter_capabilities
+    - user: |
+        bye
+      intent: goodbye
+    - action: utter_goodbye
