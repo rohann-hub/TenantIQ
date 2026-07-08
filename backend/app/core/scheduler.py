@@ -12,7 +12,7 @@ def scheduled_crawl_job():
 
 def start_scheduler():
     scheduler = BackgroundScheduler()
-    # Run the crawl immediately on startup
+    # Run the crawl 
     scheduler.add_job(scheduled_crawl_job)
     
     scheduler.add_job(scheduled_crawl_job, 'interval', hours=24)
