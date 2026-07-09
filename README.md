@@ -5,19 +5,55 @@ A helpdesk-style assistant built on Rasa 3.6 with a DIET-based NLU pipeline, a R
 ## Project structure
 
 ```
+```text
 rasa-chatbot/
-├── config.yml            # NLU pipeline (DIET) + dialogue policies (TED, Rule, Memoization)
-├── domain.yml            # Intents, entities, slots, responses, actions
+├── actions/
+│   ├── __init__.py
+│   └── actions.py        # action_query_knowledge_base (RAG hook + local KB)
+├── backend/              # Custom backend (FastAPI, RAG, etc.)
+│   ├── app/
+│   │   ├── api/
+│   │   │   ├── endpoints/
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── chat.py
+│   │   │   │   └── crawl.py
+│   │   │   └── __init__.py
+│   │   ├── core/
+│   │   │   ├── __init__.py
+│   │   │   └── scheduler.py
+│   │   ├── database/
+│   │   │   ├── __init__.py
+│   │   │   └── connection.py
+│   │   ├── models/
+│   │   │   ├── __init__.py
+│   │   │   └── log.py
+│   │   ├── services/
+│   │   │   ├── __init__.py
+│   │   │   ├── crawler_service.py
+│   │   │   ├── llm_service.py
+│   │   │   ├── log_service.py
+│   │   │   ├── rag_service.py
+│   │   │   └── rasa_service.py
+│   │   └── main.py
+│   ├── chatbot.db
+│   ├── requirements.txt
+│   └── test_rag.py
 ├── data/
 │   ├── nlu.yml           # Training examples (incl. faq/* retrieval intents)
 │   ├── rules.yml         # Deterministic paths + fallback routing
 │   └── stories.yml       # ML training stories
-├── actions/
-│   └── actions.py        # action_query_knowledge_base (RAG hook + local KB)
-├── tests/test_stories.yml
-├── endpoints.yml
+├── models/
+│   └── 20260708-203001-lenient-secant.tar.gz
+├── tests/
+│   └── test_stories.yml
+├── .gitignore
+├── README.md
+├── config.yml            # NLU pipeline   (TED, Rule, Memoization)
 ├── credentials.yml
+├── domain.yml            # Intents, entities, slots, responses, actions
+├── endpoints.yml
 └── requirements.txt
+```
 ```
 
 ## Setup
