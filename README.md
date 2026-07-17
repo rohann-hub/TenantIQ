@@ -27,19 +27,36 @@ A comprehensive, production-ready AI helpdesk assistant **TenantIQ** featuring a
 ## 📂 Project Structure
 
 ```
-rasa-chatbot/
-├── config.yml            # NLU pipeline (DIET) + dialogue policies (TED, Rule, Memoization)
-├── domain.yml            # Intents, entities, slots, responses, actions
-├── data/
-│   ├── nlu.yml           # Training examples (incl. faq/* retrieval intents)
-│   ├── rules.yml         # Deterministic paths + fallback routing
-│   └── stories.yml       # ML training stories
-├── actions/
-│   └── actions.py        # action_query_knowledge_base (RAG hook + local KB)
-├── tests/test_stories.yml
-├── endpoints.yml
-├── credentials.yml
-└── requirements.txt
+TenantIQ/
+├── actions/                  # Rasa custom actions (RAG hook + local KB)
+│   └── actions.py
+├── backend/                  # FastAPI Backend Application
+│   ├── app/
+│   │   ├── api/              # API Routes (chat, crawl)
+│   │   ├── core/             # Configuration & APScheduler
+│   │   ├── database/         # SQLite setup & DB connection
+│   │   ├── models/           # SQLAlchemy DB models
+│   │   ├── services/         # Business logic (Crawler, LLM, RAG, Rasa)
+│   │   └── main.py           # FastAPI entrypoint
+│   └── requirements.txt      # Backend-specific dependencies
+├── data/                     # Rasa Training Data
+│   ├── nlu.yml               # Intent examples (incl. FAQ retrieval)
+│   ├── rules.yml             # Deterministic dialog paths
+│   └── stories.yml           # ML training stories
+├── rasa-frontend/            # React + Vite Frontend Application
+│   ├── src/
+│   │   ├── components/       # Chat interface, Layout, ParticleOrb
+│   │   ├── hooks/            # Custom React hooks
+│   │   └── styles/           # Tailwind & custom CSS
+│   ├── package.json          # Node dependencies
+│   └── vite.config.ts        # Vite configuration
+├── tests/                    # Rasa automated tests
+│   └── test_stories.yml
+├── config.yml                # NLU pipeline (DIET) & policies (TED, Rule)
+├── credentials.yml           # Rasa credentials & channel hooks
+├── domain.yml                # Intents, entities, slots, responses
+├── docker-compose.yml        # Docker orchestration config
+└── requirements.txt          # Root Python dependencies (Rasa)
 ```
 
 ## Setup
