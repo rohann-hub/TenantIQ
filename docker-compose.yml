@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+    container_name: rasa_backend
+    ports:
+      - "8000:8000"
+    environment:
+      # Connect to host's Ollama instance. If on Linux/Mac, might need `host.docker.internal` in extra_hosts
+      # or just rely on docker's default network. For Windows/Mac Docker Desktop, this works out of the box.
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      - RASA_URL=http://rasa:5005
+    volumes:
+      - ./backend/chatbot.db:/app/chatbot.db
+      - ./backend/chroma_db:/app/chroma_db
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      - rasa
+
+  frontend:
+    build:
+      context: ./rasa-frontend
+    container_name: rasa_frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+  rasa:
+    image: rasa/rasa:3.6.20-full
+    container_name: rasa_server
+    ports:
+      - "5005:5005"
+    volumes:
+      - ./:/app
+    command: run --enable-api --cors "*"
+    depends_on:
+      - rasa-actions
+
+  rasa-actions:
+    image: rasa/rasa-sdk:3.6.2
+    container_name: rasa_actions
+    ports:
+      - "5055:5055"
+    volumes:
+      - ./actions:/app/actions
+    command: start --actions actions

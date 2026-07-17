@@ -1,0 +1,231 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url("/fonts/manrope-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+    U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
+    U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url("/fonts/manrope-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7,
+    U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F,
+    U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
+}
+
+
+@layer base {
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: #fafafa;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  #root {
+    height: 100%;
+  }
+
+  a {
+    color: #6366f1;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: #4f46e5;
+  }
+
+  ::selection {
+    background: rgba(129, 140, 248, 0.22);
+  }
+
+  input::placeholder {
+    color: #a1a1aa;
+  }
+}
+
+@media (max-width: 768px) {
+  .rn-header {
+    padding: 16px 18px !important;
+  }
+
+  .rn-hero {
+    padding: 4px 18px 150px !important;
+  }
+
+  .rn-suggest {
+    gap: 8px !important;
+    margin-top: 26px !important;
+  }
+
+  .rn-chip {
+    flex: 1 1 42% !important;
+    justify-content: center !important;
+  }
+
+  .rn-conv {
+    padding: 0 14px 158px !important;
+  }
+
+  .rn-msg {
+    max-width: 88% !important;
+  }
+
+  .rn-followups {
+    padding-left: 0 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .rn-chip {
+    flex: 1 1 100% !important;
+  }
+
+  .rn-brand-tag {
+    display: none !important;
+  }
+
+  .rn-cap {
+    display: none !important;
+  }
+}
+
+@media (min-width: 1440px) {
+  .rn-hero-inner {
+    max-width: 780px !important;
+  }
+}
+
+
+/* @media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+} */
+
+/* normal: full word animation */
+@keyframes wordUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px) rotate(2deg);
+    filter: blur(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(0);
+    filter: blur(0);
+  }
+}
+
+.hero-word {
+  animation: wordUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  @keyframes wordUp {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  .hero-word {
+    animation: wordUp 0.6s ease both;
+
+  }
+}
+
+/* new line()*/
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Subtext */
+.hero-subtext {
+  animation: fadeUp 0.7s ease both;
+  animation-delay: 0.5s;
+}
+
+/* Suggestion card ROW*/
+.suggestion-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  perspective: 800px;
+  /* enables the 3D tilt on cards */
+  animation: fadeUp 0.7s ease both;
+  animation-delay: 0.6s;
+}
+
+/* Individual card — hover states + smooth tilt transition */
+.suggestion-card {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: #3f3f46;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(24, 24, 27, 0.07);
+  border-radius: 18px;
+  padding: 13px 18px;
+  cursor: pointer;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 1px 3px rgba(24, 24, 27, 0.03);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s ease, border-color 0.35s ease,
+    color 0.35s ease, background 0.35s ease;
+  will-change: transform;
+}
+
+.suggestion-card:hover {
+  box-shadow: 0 10px 26px rgba(24, 24, 27, 0.08);
+  border-color: rgba(129, 140, 248, 0.35);
+  color: #18181b;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .hero-subtext,
+  .suggestion-row {
+    animation: none;
+    opacity: 1;
+  }
+}

@@ -1,9 +1,10 @@
+import os
 import httpx
 from typing import Dict, Any
 
 class RasaService:
-    def __init__(self, rasa_url: str = "http://localhost:5005"):
-        self.rasa_url = rasa_url
+    def __init__(self, rasa_url: str = None):
+        self.rasa_url = rasa_url or os.getenv("RASA_URL", "http://localhost:5005")
 
     async def get_intent_and_entities(self, text: str) -> Dict[str, Any]:
         """

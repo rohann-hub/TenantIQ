@@ -2,7 +2,17 @@ from sqlalchemy.orm import Session
 from app.models.log import ChatLog
 import json
 
-def log_interaction(db: Session, query: str, intent: str, confidence: float, entities: list, response: str):
+
+def log_interaction(
+    db: Session,
+    query: str,
+    intent: str,
+    confidence: float,
+    entities: list,
+    response: str,
+    route: str = "llm",
+    session_id: str = None,
+):
     """
     Saves a single chat interaction to the SQLite database.
     """
@@ -11,8 +21,10 @@ def log_interaction(db: Session, query: str, intent: str, confidence: float, ent
             user_query=query,
             detected_intent=intent,
             confidence_score=confidence,
-            extracted_entities=json.dumps(entities), # Convert list of dicts to string
-            llm_response=response
+            extracted_entities=json.dumps(entities),
+            llm_response=response,
+            route=route,
+            session_id=session_id,
         )
         db.add(log_entry)
         db.commit()
