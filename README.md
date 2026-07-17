@@ -26,62 +26,26 @@ A comprehensive, production-ready AI helpdesk assistant **TenantIQ** featuring a
 
 ## 📂 Project Structure
 
-```text
+```
 rasa-chatbot/
-├── actions/                  # Rasa custom actions (RAG hook + local KB fallback)
-├── backend/                  # FastAPI Backend application
-│   ├── app/
-│   │   ├── api/              # API Endpoints (chat, crawl)
-│   │   ├── core/             # Core settings & scheduler
-│   │   ├── database/         # SQLite connection (chatbot.db)
-│   │   ├── models/           # SQLAlchemy models
-│   │   ├── services/         # Business logic (Crawler, LLM, RAG, Rasa integration)
-│   │   └── main.py           # FastAPI entrypoint
-│   └── requirements.txt
-├── data/                     # Rasa Training examples (NLU, rules, stories)
-├── models/                   # Trained Rasa models
-├── rasa-frontend/            # React + Vite Frontend application
-│   ├── src/
-│   │   ├── components/       # ChatWindow, ChatInput, ParticleOrb, Layout, UI
-│   │   ├── hooks/            # Custom React hooks (animations, chat state)
-│   │   └── styles/           # Tailwind and custom CSS
-│   ├── package.json
-│   └── vite.config.ts
-├── tests/                    # Rasa testing stories
-├── docker-compose.yml        # Docker orchestration configuration
-├── config.yml                # Rasa NLU pipeline configuration
-├── credentials.yml           # Rasa credentials
-├── domain.yml                # Rasa Intents, entities, slots, and responses
-└── requirements.txt          # Root Python dependencies (Rasa)
+├── config.yml            # NLU pipeline (DIET) + dialogue policies (TED, Rule, Memoization)
+├── domain.yml            # Intents, entities, slots, responses, actions
+├── data/
+│   ├── nlu.yml           # Training examples (incl. faq/* retrieval intents)
+│   ├── rules.yml         # Deterministic paths + fallback routing
+│   └── stories.yml       # ML training stories
+├── actions/
+│   └── actions.py        # action_query_knowledge_base (RAG hook + local KB)
+├── tests/test_stories.yml
+├── endpoints.yml
+├── credentials.yml
+└── requirements.txt
 ```
 
----
+## Setup
 
-## 📋 Prerequisites
+Rasa 3.6 requires **Python 3.8–3.10** (3.10 recommended; it will NOT install on 3.11+).
 
-Before you begin, ensure you have the following installed on your machine:
-- **Node.js** (v18+ recommended)
-- **Python 3.10** (Strict requirement for Rasa 3.6; it will NOT install on Python 3.11+)
-- **Ollama** (Running locally with `llama3.2:1b` model pulled)
-- **Docker & Docker Compose** (Optional, for containerized deployment)
-
----
-
-## ⚙️ Configuration & Environment Variables
-
-### Backend Environment Variables
-If running locally (without Docker), the following environment variables can be set:
-- `RAG_ENDPOINT`: URL to the Qdrant/Chroma hybrid retrieval service (defaults to internal RAG service).
-- `RAG_TIMEOUT_SECONDS`: Timeout for knowledge base queries (default: `8`).
-- `OLLAMA_BASE_URL`: URL to the Ollama service (default: `http://localhost:11434`).
-- `RASA_URL`: URL to the Rasa server (default: `http://localhost:5005`).
-
----
-
-## 🚀 Setup & Installation (Local Development)
-
-### 1. Rasa Setup
-Create a Python 3.10 virtual environment and install Rasa dependencies:
 ```bash
 
 

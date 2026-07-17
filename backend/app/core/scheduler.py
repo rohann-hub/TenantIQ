@@ -22,8 +22,7 @@ def scheduled_memory_cleanup():
 
 def start_scheduler():
     scheduler = BackgroundScheduler()
-
-    # Crawl jobs
+    # Run the crawl immediately on startup
     scheduler.add_job(scheduled_crawl_job)
     scheduler.add_job(scheduled_crawl_job, "interval", hours=24)
 
