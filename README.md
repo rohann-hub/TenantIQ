@@ -91,7 +91,7 @@ cd ..
 
 ---
 
-## 🏃‍♂️ How to Run Locally
+##  How to Run Locally
 
 To run the complete system manually, you will need multiple terminal windows. 
 
