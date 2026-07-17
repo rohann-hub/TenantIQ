@@ -136,8 +136,11 @@ npm run preview
 ```
 *The frontend application will be available at: http://localhost:5173*
 
----
+```
+##
+![Pipeline Architecture](./assets/frontend.jpeg)
 
+---
 ## 🐳 Running with Docker
 
 For a streamlined deployment, use Docker Compose. The `docker-compose.yml` sets up the Rasa server, Rasa action server, FastAPI backend, and a production build of the frontend.
