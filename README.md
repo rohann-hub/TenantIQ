@@ -218,5 +218,6 @@ rasa interactive          # Generates new training data interactively
 
 ---
 *Rohan this side (it means successfully updated the frontend and backend)*
-*Contributions are welcome! Please feel free to submit a Pull Request.*
+
+* Contributions are welcome! Please feel free to submit a Pull Request.*
 * If you found this project useful, consider giving it a star!*
