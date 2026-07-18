@@ -4,25 +4,25 @@ A comprehensive, production-ready AI helpdesk assistant **TenantIQ** featuring a
 
 ---
 
-## 🏗️ Architecture & Tech Stack
+##   Architecture & Tech Stack
 
 ![Pipeline Architecture](./assets/TenantIQ_Rohan.png)
 
 ### Frontend
-- **React 19** & **TypeScript**
-- **Vite 6** (Build tool)
-- **Tailwind CSS 3** (Styling)
+- **React 19** & **TypeScript** <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" width="22"> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" width="22">
+- **Vite 6** (Build tool) <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vitejs/vitejs-original.svg" width="22">
+- **Tailwind CSS 3** (Styling) <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" width="22"> 
 - **Canvas 2D** (Particle Orb & animations)
-- **Lucide React** (Icons)
+- **Lucide React** (Icons) 
 
 ### Backend & NLP
-- **FastAPI** (Core API Gateway & Orchestrator)
-- **Rasa 3.6** (NLU Pipeline: DIET classifier, ResponseSelector)
-- **Ollama (`llama3.2:1b`)** (Local LLM for generative responses)
-- **LangChain & ChromaDB** (Vector Database for RAG)
-- **Sentence-Transformers** (`all-MiniLM-L6-v2` for embeddings)
-- **SQLite & SQLAlchemy** (Logging and system of record)
-- **APScheduler** (Automated web crawling)
+- **FastAPI** (Core API Gateway & Orchestrator) <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg" width="22">
+- **Rasa 3.6** (NLU Pipeline: DIET classifier, ResponseSelector) 
+- **Ollama (`llama3.2:1b`)** (Local LLM for generative responses) <img src="https://cdn.simpleicons.org/ollama/ffffff" width="22">
+- **LangChain & ChromaDB** (Vector Database for RAG)  <img src="https://www.trychroma.com/favicon.ico" width="22">
+- **Sentence-Transformers** (`all-MiniLM-L6-v2` for embeddings) <img src="https://huggingface.co/front/assets/huggingface_logo.svg" width="22">
+- **SQLite & SQLAlchemy** (Logging and system of record) <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sqlite/sqlite-original.svg" width="22">
+- **APScheduler** (Automated web crawling) 
 
 ---
 
@@ -141,7 +141,7 @@ npm run preview
 ![Pipeline Architecture](./assets/frontend.jpeg)
 
 ---
-## 🐳 Running with Docker
+## <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" width="22"> Running with Docker
 
 For a streamlined deployment, use Docker Compose. The `docker-compose.yml` sets up the Rasa server, Rasa action server, FastAPI backend, and a production build of the frontend.
 
@@ -211,7 +211,7 @@ rasa interactive          # Generates new training data interactively
 
 ## 🔧 Troubleshooting
 
-- **Python 3.11+ Compatibility Issue**: Rasa 3.6 uses older async loop bindings that clash with Python 3.11+. Ensure you are strictly using `Python 3.10` or lower.
+- **Python 3.11+ Compatibility Issue**: Rasa 3.6 uses older async loop bindings that clash with Python 3.11+. Ensure you are strictly using <img `Python 3.10  ` or lower <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" width="22"> .
 - **Ollama Connection Refused**: When using Docker, the backend attempts to hit Ollama at `http://host.docker.internal:11434`. Ensure `OLLAMA_BASE_URL` is set correctly for your host networking setup if you face connection drops.
 - **Missing Knowledge Base Context**: Verify the APScheduler crawler has run at least once (triggered on backend startup) to index the documentation into ChromaDB.
 - **Missing Node Packages**: If the frontend fails to start, ensure you've executed `npm install` within the `rasa-frontend` directory.
