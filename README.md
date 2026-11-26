@@ -42,7 +42,8 @@ rasa-nlu-chatbot/
 │   ├── nlu.yml           # Training examples (incl. faq/* retrieval intents)
 │   ├── rules.yml         # Deterministic paths + fallback routing
 │   └── stories.yml       # ML training stories
-├── models/               # Trained Rasa models (.tar.gz)
+├── models/               # Trained Rasa models (.tar.gz, git-ignored; created by `rasa train`)
+├── skill/                # Agent skill (SKILL.md) + packager for agent marketplaces
 ├── tests/test_stories.yml
 ├── config.yml            # NLU pipeline (DIET) + dialogue policies (TED, Rule, Memoization)
 ├── domain.yml            # Intents, entities, slots, responses, actions
@@ -91,8 +92,10 @@ Starts the Rasa server and exposes the REST API for the backend to consume.
 ```bash
 # Activate your python environment first
 .\.venv\Scripts\activate
+rasa train              # first time, and after every change to data/ or domain.yml
 rasa run --enable-api
 ```
+> Without a trained model in `models/`, Rasa cannot classify anything and every message silently falls back to the LLM. The backend now prints a warning at startup and `GET /health` reports `"rasa": "unavailable"` in that case.
 
 
 
@@ -102,6 +105,7 @@ Ensure the Ollama background service is running on your machine and run the requ
 .\.venv\Scripts\activate
 ollama run llama3.2:1b
 ```
+> To use a bigger model, `ollama pull llama3.1:8b` and set `OLLAMA_MODEL=llama3.1:8b` (see **Configuration** below).
 
 ### Terminal 3: FastAPI Backend
 Starts the backend gateway which orchestrates Rasa, ChromaDB, and Ollama.
@@ -117,17 +121,20 @@ Starts the Vite development server.
 ```bash
 cd rasa-frontend
 npm run dev
-
-## Run
-
-```bash
-npm run build    # type-check + production bundle
-npm run preview
-```
 ```
 *The frontend application will be available at: http://localhost:5173*
 
-```
+### Configuration
+
+All settings are environment variables with working defaults. Copy `backend/.env.example` to `backend/.env` and start the backend with `uvicorn app.main:app --env-file .env --port 8000`.
+
+| Variable | Default | Purpose |
+|---|---|---|
+| `OLLAMA_BASE_URL` | `http://localhost:11434` | Where Ollama is running |
+| `OLLAMA_MODEL` | `llama3.2:1b` | Ollama model used for answers |
+| `RASA_URL` | `http://localhost:5005` | Rasa NLU server |
+| `DATABASE_URL` | `sqlite:///./chatbot.db` | Conversation log database |
+
 ##
 ![Pipeline Architecture](./assets/frontend.jpeg)
 
@@ -138,7 +145,8 @@ For a streamlined deployment, use Docker Compose. The `docker-compose.yml` sets 
 
 Before starting:
 - Make sure the host machine has **Ollama** running locally (accessible on port `11434`, e.g., `ollama serve` with `llama3.2:1b` pulled).
-- Ensure a trained Rasa model (`.tar.gz`) exists in `models/` (run `rasa train` first if needed).
+- No need to train first: if `models/` has no `.tar.gz`, the `rasa` container runs `rasa train` before serving. The first start takes a few minutes; watch it with `docker compose logs -f rasa`.
+- On Linux hosts the Rasa image runs as user `1001`; if training fails with a permission error, run `mkdir -p models && sudo chown -R 1001 models .rasa` once.
 
 ```bash
 # Build and start all services in detached mode
@@ -159,7 +167,8 @@ Services exposed:
 
 > **Notes:**
 > - `backend/.dockerignore` and `rasa-frontend/.dockerignore` exclude host `.venv`, `node_modules`, and local DB files from the Docker build context.
-> - `./backend/chatbot.db` and `./backend/chroma_db` are bind-mounted into the `backend` container for SQLite and ChromaDB persistence.
+> - `./backend/data/` (SQLite `chatbot.db`) and `./backend/chroma_db/` are bind-mounted into the `backend` container for persistence. Both are folders, so they work on a fresh clone.
+> - Check `http://localhost:8000/health`: `"rasa": "ok"` means the NLU model is loaded.
 
 ---
 
@@ -186,7 +195,7 @@ npm run preview  # Preview the production build locally
    }
    ```
 3. Check the response to verify the full lifecycle (Rasa intent extraction + ChromaDB semantic search + Ollama generative response).
-4. Inspect the SQLite `chatbot.db` file to view logged conversational history.
+4. Inspect the SQLite `chatbot.db` file (`backend/data/chatbot.db` under Docker) to view logged conversational history.
 
 ### Rasa ML Testing
 ```bash

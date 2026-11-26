@@ -2,3 +2,4 @@
 rasa==3.6.20
 rasa-sdk==3.6.2
 requests>=2.31
+setuptools<81   # Rasa 3.6 imports pkg_resources, removed in setuptools 81

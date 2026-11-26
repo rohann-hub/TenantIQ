@@ -9,9 +9,13 @@ services:
       # Connect to host's Ollama instance. If on Linux/Mac, might need `host.docker.internal` in extra_hosts
       # or just rely on docker's default network. For Windows/Mac Docker Desktop, this works out of the box.
       - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      - OLLAMA_MODEL=${OLLAMA_MODEL:-llama3.2:1b}
       - RASA_URL=http://rasa:5005
+      # SQLite file lives inside a mounted *folder*. Mounting a single file that
+      # doesn't exist yet makes Docker create a directory with that name instead.
+      - DATABASE_URL=sqlite:////app/data/chatbot.db
     volumes:
-      - ./backend/chatbot.db:/app/chatbot.db
+      - ./backend/data:/app/data
       - ./backend/chroma_db:/app/chroma_db
     extra_hosts:
       - "host.docker.internal:host-gateway"
@@ -34,7 +38,11 @@ services:
       - "5005:5005"
     volumes:
       - ./:/app
-    command: run --enable-api --cors "*"
+    # A fresh clone has no trained model (models/*.tar.gz is git-ignored).
+    # Train once if none exists, then serve. First start takes a few minutes.
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - ls models/*.tar.gz >/dev/null 2>&1 || rasa train; exec rasa run --enable-api --cors "*"
     depends_on:
       - rasa-actions
 
