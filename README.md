@@ -29,18 +29,26 @@ A comprehensive, production-ready AI helpdesk assistant **TenantIQ** featuring a
 ## 📂 Project Structure
 
 ```
-rasa-chatbot/
-├── config.yml            # NLU pipeline (DIET) + dialogue policies (TED, Rule, Memoization)
-├── domain.yml            # Intents, entities, slots, responses, actions
+rasa-nlu-chatbot/
+├── actions/
+│   └── actions.py        # action_query_knowledge_base (RAG hook + local KB)
+├── backend/              # FastAPI gateway, RAG (ChromaDB), Ollama & Rasa clients
+│   ├── Dockerfile
+│   └── .dockerignore
+├── rasa-frontend/        # React 19 + Vite + Tailwind CSS UI + Nginx config
+│   ├── Dockerfile
+│   └── .dockerignore
 ├── data/
 │   ├── nlu.yml           # Training examples (incl. faq/* retrieval intents)
 │   ├── rules.yml         # Deterministic paths + fallback routing
 │   └── stories.yml       # ML training stories
-├── actions/
-│   └── actions.py        # action_query_knowledge_base (RAG hook + local KB)
+├── models/               # Trained Rasa models (.tar.gz)
 ├── tests/test_stories.yml
-├── endpoints.yml
+├── config.yml            # NLU pipeline (DIET) + dialogue policies (TED, Rule, Memoization)
+├── domain.yml            # Intents, entities, slots, responses, actions
+├── endpoints.yml         # Action server endpoint (http://rasa-actions:5055/webhook)
 ├── credentials.yml
+├── docker-compose.yml
 └── requirements.txt
 ```
 
@@ -126,25 +134,32 @@ npm run preview
 ---
 ## 🐳 Running with Docker
 
-For a streamlined deployment, use Docker Compose. The `docker-compose.yml` sets up the Rasa server, Rasa action server, FastAPI backend, and a production build of the frontend.
+For a streamlined deployment, use Docker Compose. The `docker-compose.yml` sets up the Rasa server, Rasa action server, FastAPI backend, and an Nginx-served production build of the frontend.
 
-Make sure the host machine has Ollama running locally.
+Before starting:
+- Make sure the host machine has **Ollama** running locally (accessible on port `11434`, e.g., `ollama serve` with `llama3.2:1b` pulled).
+- Ensure a trained Rasa model (`.tar.gz`) exists in `models/` (run `rasa train` first if needed).
 
 ```bash
 # Build and start all services in detached mode
-docker-compose up --build -d
+docker compose up --build -d
 
 # View logs
-docker-compose logs -f
+docker compose logs -f
 
 # Stop all services
-docker-compose down
+docker compose down
 ```
 
 Services exposed:
-- **Frontend**: `http://localhost:3000`
+- **Frontend (Nginx)**: `http://localhost:3000` (proxies `/api/` and `/health` to `backend:8000`)
 - **FastAPI Backend**: `http://localhost:8000`
 - **Rasa NLU API**: `http://localhost:5005`
+- **Rasa Action Server**: `http://localhost:5055`
+
+> **Notes:**
+> - `backend/.dockerignore` and `rasa-frontend/.dockerignore` exclude host `.venv`, `node_modules`, and local DB files from the Docker build context.
+> - `./backend/chatbot.db` and `./backend/chroma_db` are bind-mounted into the `backend` container for SQLite and ChromaDB persistence.
 
 ---
 
