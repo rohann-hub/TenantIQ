@@ -9,7 +9,7 @@ venv.bak/
 
 # Rasa specific
 .rasa/
-models/
+
 *.tar.gz
 
 # Database
