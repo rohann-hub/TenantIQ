@@ -1,0 +1,13 @@
+.venv
+venv
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache
+chatbot.db
+chroma_db
+.git
+.gitignore
+.env*
+
