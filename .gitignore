@@ -17,6 +17,7 @@ venv.bak/
 *.sqlite
 *.sqlite3
 backend/chroma_db/
+backend/data/
 chatbot.db
 
 # Python

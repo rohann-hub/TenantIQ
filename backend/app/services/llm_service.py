@@ -46,10 +46,11 @@ class LLMService:
 
     def __init__(
         self,
-        model_name: str = "llama3.2:1b",
+        model_name: str = None,
         base_url: str = None,
     ):
-        self.model_name = model_name
+        # Override with OLLAMA_MODEL (e.g. llama3.1:8b, qwen2.5:7b) without editing code
+        self.model_name = model_name or os.getenv("OLLAMA_MODEL", "llama3.2:1b")
         self.base_url = (base_url or os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")).rstrip("/")
         self.generate_url = f"{self.base_url}/api/generate"
 
